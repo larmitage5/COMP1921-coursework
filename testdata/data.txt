@@ -1,4 +1,0 @@
-can use chatgpt to generate test data???
-- A variety of maze text files which you will use in your testing (valid and invalid)
-- Some input files to navigate through your test mazes / check for errors when using your
-program
