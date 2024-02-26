@@ -1,108 +1,81 @@
-/* include 
-struct definitions
-function/procedure definitions
-basic main outline
-use comments to give basic idea of code structure
-*/
-
-/*
-required functions
-- move up
-- move down
-- move left
-- move right
-- show map
-- player position
-- check maze file
-*/
-
-
-/* 
-required structs
-- 
-*/
-
-// struct for position of player
 #include <stdio.h>
 
 typedef struct {
-    // 2d array??
     char row[100];
-} pos;
+    // 2d array???
+} POSITION;
 
-void readIn (){
-    /*reads in text file
-    adds each row to struct
+void readIn (filename){
+    /*reads in each row of map text file
+    adds each row to pos
     prints each row to new text file called map.txt
     */
 }
 
-int checkMaze (){
+void checkMaze (map_file){
     /* checks that maze file is valid
-    checks that each item in the array has the same length - else displays 'Invalid Maze: bad dimensions'
-    checks that each array only contains ' ','#','S','E' - else displays 'Invalid Maze: invalid characters'
-    creates a counter to check that across all arrays, there is only one 'S' and only one 'E'
-    - else displays 'Invalid Maze: multiple starts' or 'Invalid Maze: multiple ends'
-    else prints "Maze loaded successfully!"
+    if rows are not all the same length, maze is too big or too small, has no start or no end,
+    has multiple starts or multiple ends or contains invalid characters then displays "Invalid Maze"
     */
+    
 }
 
-int moveUp (){
+void start(map_file, POSITION* row) {
+    // replaces 'S' in map.txt and pos with 'X'
+}
+
+void moveUp (map_file, POSITION* row){
     /* checks the item in the array of the row above in the same position
       for pos[n].row[8] checks pos[n-1].row[8]
       calls checkChar function
-      else, value of pos[n-1].row[8] becomes 'X' and value of pos[n].row[8] becomes ' '
-      updates text file accordingly
-      displays 'Successfully moved up.'
+      if it passes, value of pos[n-1].row[8] becomes 'X' and value of pos[n].row[8] becomes ' '
+      updates map.txt
+      displays "Successfully moved!"
     */
 }
 
-int moveDown(){
+void moveDown(map_file, POSITION* row){
     /* checks the item in the array of the row below in the same position
       for pos[n].row[8] checks pos[n+1].row[8]
       calls checkChar function
       else, value of pos[n+1][8] becomes 'X' and value of pos[n][8] becomes ' '
-      updates text file accordingly
-      displays 'Successfully moved down.'
+      updates map.txt
+      displays "Successfully moved!"
     */
 }
 
-int moveRight(){
+void moveRight(map_file, POSITION* row){
     /* checks the next item in the same array
       for pos[n].row[8] checks pos[n].row[9]
       calls checkChar function
       else, value of pos[n].row[9] becomes 'X' and value of pos[n].row[8] becomes ' '
-      updates text file accordingly
-      displays 'Successfully moved right.'
+      updates map.txt
+      displays "Successfully moved!"
     */
 }
 
-int moveLeft(){
+void moveLeft(map_file, POSITION* row){
     /* checks the previous item in the same array
       for pos[n][8] checks pos[n][7]
       calls checkChar function
       else, value of pos[n][7] becomes 'X' and value of pos[n][8] becomes ' '
-      updates text file accordingly
-      displays 'Successfully moved left.'
+      updates map.txt
+      displays "Successfully moved!"
     */
 }
 
-int checkChar(){
-    // for movement, checks if character moved into is '#' or 'E'
+void checkChar(POSITION* row){
+    // for movement, checks if character attempting to move to is '#' or 'E'
     // for # displays appropriate error message, for E calls end() function
 }
 
-int map() {
+int displayMap(map_file) {
     // prints map.txt
-}
-
-int start() {
-    // replaces 'S' in map.txt with 'X'
 }
 
 int end() {
     // displays message 'Congratulations, you have exited the maze!'
-    // exits the programme
+    // returns 0, exits the programme
 }
 
 // number of functions - 10
@@ -119,28 +92,56 @@ int main (int argc, char *argv[]) {
         return 0;
     }
 
-   // readIn(argv[1]);
-    //checkMaze();
+    POSITION pos[100];
+    char row[100];
+
+    //readIn(argv[1]);
+
+    //checkMaze(map.txt);
+
     //start(map.txt)
 
     // read in, check, prompt user, 
 
     while (1) {
         printf("Please enter 'A' to move left, 'D' to move right, 'W' to move up, 'S' to move down, or 'M' to view map:\n");
-        // scanf for user input
-        // switch cases for entries WASDM and lowercase versions and corresponding function for each choice
-        // default case - "Error: invalid character entered"
+
+        //choice = getchar();
+        //while(getchar() != '\n');
+       
+        // switch statement
+        /*
+        case 'A':
+        case 'a':
+            moveLeft();
+            break;
+        
+        case 'W':
+        case 'w':
+            moveUp();
+            break;
+
+        case 'D':
+        case 'd':
+            moveRight();
+            break;
+
+        case 'S':
+        case 's':
+            moveDown();
+            break;
+
+        case 'M':
+        case 'm':
+            displayMap();
+            break;
             
-        return 0;
+        default:
+            printf("Error: invalid character entered");
+            break;
+        */
+
         }
     return 0;
     
 }
-
-
-// TO DO!!!!
-// check struct is right
-// check all tests are mentioned in c code
-// compare to other skeleton code - too long? too many comments?
-// recheck spec - anything missing?
-// references
