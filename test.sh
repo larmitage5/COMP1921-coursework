@@ -1,7 +1,5 @@
 #!/bin/bash
 
-chmod -r testdata/bad_perms.txt
-
 # file tests - test that maze meets criteria
 echo -e "~~ File Tests ~~"
 
@@ -120,24 +118,23 @@ else
     echo "FAIL"
 fi
 
+# tests for invalid user inputs
+echo -e "\n~~ User Input Tests ~~"
+
+
 # test 12
-echo -n "Testing bad permissions - "
-./code testdata/bad_perms.txt > tmp
-if grep -q "Error: bad filename" tmp;
+echo -n "Testing for no user input - "
+./code testdata/maze1.txt < inputs/empty.txt > tmp
+if grep -q "Error: invalid character entered" tmp;
 then
     echo "PASS"
 else
     echo "FAIL"
 fi
 
-
-# tests for invalid user inputs
-echo -e "\n~~ User Input Tests ~~"
-
-
 # test 13
-echo -n "Testing for no user input - "
-echo '' | ./code testdata/maze1.txt > tmp
+echo -n "Testing for invalid user input (symbol) - "
+echo '😭' | ./code testdata/maze1.txt > tmp
 if grep -q "Error: invalid character entered" tmp;
 then
     echo "PASS"
@@ -146,7 +143,7 @@ else
 fi
 
 # test 14
-echo -n "Testing for invalid user input - "
+echo -n "Testing for invalid user input (letter) - "
 echo 'k' | ./code testdata/maze1.txt > tmp
 if grep -q "Error: invalid character entered" tmp;
 then
@@ -166,6 +163,16 @@ else
 fi
 
 # test 16
+echo -n "Testing map after walking into walls - "
+./code testdata/maze1.txt < inputs/input2.txt > tmp
+if grep -q "#######\n#    E#\n# ### #\n#   # #\n### # #\n#     #\n###X###" tmp;
+then
+    echo "PASS"
+else
+    echo "FAIL"
+fi
+
+# test 17
 echo -n "Testing for walking out of maze bounds - "
 echo 'S' | ./code testdata/maze1.txt > tmp
 if grep -q "Cannot walk this way!" tmp;
@@ -175,13 +182,22 @@ else
     echo "FAIL"
 fi
 
+# test 18
+echo -n "Testing map after walking out of bounds- "
+./code testdata/maze1.txt < inputs/input4.txt > tmp
+if grep -q "#######\n#    E#\n# ### #\n#   # #\n### # #\n#     #\n###X###" tmp;
+then
+    echo "PASS"
+else
+    echo "FAIL"
+fi
 
 # tests for success
 echo -e "\n~~ Success Tests ~~"
 
-# test 17
+# test 19
 echo -n "Testing for maze loading successfully - "
-./code testdata/maze1.txt > tmp
+./code testdata/maze1.txt tmp
 if grep -q "Maze loaded successfully!" tmp;
 then
     echo "PASS"
@@ -189,30 +205,10 @@ else
     echo "FAIL"
 fi
 
-# test 18
-echo -n "Testing for moving up - "
-echo 'W' | ./code testdata/maze1.txt > tmp
-if grep -q "Successfully moved!" tmp;
-then
-    echo "PASS"
-else
-    echo "FAIL"
-fi
-
-# test 19
-echo -n "Testing for moving down - "
-echo 'S' | ./code testdata/maze1.txt > tmp
-if grep -q "Successfully moved!" tmp;
-then
-    echo "PASS"
-else
-    echo "FAIL"
-fi
-
 # test 20
-echo -n "Testing for moving right - "
-echo 'D' | ./code testdata/maze1.txt > tmp
-if grep -q "Successfully moved!" tmp;
+echo -n "Testing for moving up - "
+./code testdata/maze3.txt < inputs/input3.txt> tmp
+if grep -q "#######\n#     #\n### ###\n#  S  #\n#     #\n#     #\n##E####" tmp;
 then
     echo "PASS"
 else
@@ -220,9 +216,9 @@ else
 fi
 
 # test 21
-echo -n "Testing for moving left - "
-echo 'A' | ./code testdata/maze1.txt > tmp
-if grep -q "Successfully moved!" tmp;
+echo -n "Testing for moving down - "
+./code testdata/maze3.txt < inputs/input4.txt > tmp
+if grep -q "#######\n#     #\n### ###\n#     #\n#     #\n#  S  #\n##E####" tmp;
 then
     echo "PASS"
 else
@@ -230,9 +226,9 @@ else
 fi
 
 # test 22
-echo -n "Testing for map loading - "
-echo 'M' | ./code testdata/maze1.txt > tmp
-if grep -q "Map loaded successfully!" tmp;
+echo -n "Testing for moving right - "
+./code testdata/maze3.txt < inputs/input2.txt > tmp
+if grep -q "#######\n#     #\n### ###\n#     #\n#   S #\n#     #\n##E####" tmp;
 then
     echo "PASS"
 else
@@ -240,6 +236,26 @@ else
 fi
 
 # test 23
+echo -n "Testing for moving left - "
+./code testdata/maze3.txt < inputs/input5.txt > tmp
+if grep -q "#######\n#     #\n### ###\n#     #\n# S   #\n#     #\n##E####" tmp;
+then
+    echo "PASS"
+else
+    echo "FAIL"
+fi
+
+# test 24
+echo -n "Testing for correct initial map - "
+echo 'M' | ./code testdata/maze1.txt tmp
+if grep -q "#######\n#    E#\n# ### #\n#   # #\n### # #\n#     #\n###X###" tmp;
+then
+    echo "PASS"
+else
+    echo "FAIL"
+fi
+
+# test 25
 echo -n "Testing for correct end - "
 ./code testdata/end.txt < inputs/input.txt > tmp
 if grep -q "Congratulations, you have exited the maze!" tmp;
@@ -249,5 +265,4 @@ else
     echo "FAIL"
 fi
 
-chmod +r testdata/bad_perms.txt
 rm -f tmp
